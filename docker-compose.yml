@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+
+  global-data:
+    container_name: global-data
+    build:
+      context: ./services/global-data
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './services/global-data:/usr/src/app'
+    ports:
+      - 5001:5000
+    environment:
+      - FLASK_APP=project/__init__.py
+      - FLASK_DEBUG=1
+      - APP_SETTINGS=project.config.DevConfig
+      - DATABASE_URL=postgres://postgres:postgres@ninebox-db:5432/nine_box_dev
+      - DATABASE_URL_TEST=postgres://postgres:postgres@ninebox-db:5432/nine_box_test
+    depends_on:
+      - ninebox-db
+    links:
+      - ninebox-db
+
+  ninebox-db:
+    container_name: ninebox-db
+    build:
+      context: ./services/global-data/project/db
+      dockerfile: Dockerfile
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
