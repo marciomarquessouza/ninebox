@@ -11,7 +11,7 @@ class TestRouteService(BaseTestCase):
 
     def test_route(self):
         """test the route test (ping) """
-        response = self.client.get('/global-data/ping')
+        response = self.client.get('/global_data/ping')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
         self.assertIn('...pong', data['message'])
