@@ -20,3 +20,27 @@ class Department(db.Model):
         self.company_code_01 = company_code_01
         self.company_code_02 = company_code_02
         self.is_active = is_active
+
+
+class Person(db.Model):
+    """Test relationship between tables"""
+
+    __tablename__ = 'person'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+
+    def __init__(self, name):
+        self.name = name
+
+
+class Address(db.Model):
+    """Test relationship between tables"""
+
+    __tablename__ = 'address'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), nullable=False)
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'), nullable=False)
+
+    def __init__(self, email, person_id):
+        self.email = email
+        self.person_id = person_id
